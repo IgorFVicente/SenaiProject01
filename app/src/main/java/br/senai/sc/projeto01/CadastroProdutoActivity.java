@@ -71,6 +71,7 @@ public class CadastroProdutoActivity extends AppCompatActivity {
 
             Intent intent = new Intent();
             intent.putExtra("produtoExcluido", id);
+            setResult(RESULT_CODE_PRODUTO_EXCLUIDO, intent);
         } else {
             // make Toast
         }
