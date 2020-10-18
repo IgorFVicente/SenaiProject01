@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -41,7 +43,30 @@ public class MainActivity extends AppCompatActivity {
                 produtos);
         listViewProdutos.setAdapter(adapterProdutos);
 
+        registerForContextMenu(listViewProdutos);
         definirOnClickListenerListView();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(0, v.getId(), 0, "Editar");
+        menu.add(0, v.getId(), 0, "Excluir");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int position = info.position;
+        Produto produtoClicado = adapterProdutos.getItem(position);
+        if (item.getTitle() == "Editar") {
+            Intent intent = new Intent(MainActivity.this, CadastroProdutoActivity.class);
+            intent.putExtra("produtoEdicao", produtoClicado);
+            startActivityForResult(intent, REQUEST_CODE_EDITAR_PRODUTO);
+        } else if (item.getTitle() == "Excluir") {
+            adapterProdutos.remove(produtoClicado);
+        }
+        return true;
     }
 
     private void definirOnClickListenerListView() {

@@ -72,8 +72,9 @@ public class CadastroProdutoActivity extends AppCompatActivity {
             Intent intent = new Intent();
             intent.putExtra("produtoExcluido", id);
             setResult(RESULT_CODE_PRODUTO_EXCLUIDO, intent);
+            finish();
         } else {
-            // make Toast
+            Toast.makeText(CadastroProdutoActivity.this, "Não há produto para ser excluído", Toast.LENGTH_LONG).show();
         }
     }
 }
